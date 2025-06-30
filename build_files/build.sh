@@ -11,10 +11,39 @@ set -ouex pipefail
 
 # Remove KDE components (keeping sddm)
 rpm-ostree override remove \
+    plasma-workspace-common \
+    plasma-activities \
+    plasma-activities-stats \
+    kde-settings-plasma \
+    libplasma \
+    plasma-systemsettings \
+    plasma5support \
+    plasma-discover-libs \
+    plasma-integration-qt5 \
+    plasma-integration \
+    plasma-workspace-libs \
+    plasma-discover \
+    plasma-nm \
     plasma-desktop \
-    kde-settings-fedora \
-    krunner \
-    kwin
+    plasma-lookandfeel-fedora \
+    plasma-workspace \
+    plasma-workspace-wayland \
+    plasma-print-manager-libs \
+    plasma-print-manager \
+    plasma-nm-vpnc \
+    plasma-nm-openvpn \
+    plasma-nm-openconnect \
+    plasma-discover-flatpak \
+    plasma-discover-notifier \
+    kdeplasma-addons \
+    plasma-systemmonitor \
+    plasma-pa \
+    plasma-vault \
+    plasma-disks \
+    plasma-thunderbolt \
+    plasma-milou \
+    plasma-workspace-wallpapers \
+    plasma-desktop-doc
 
 # Use a COPR Example:
 dnf5 y copr enable solopasha/hyprland
