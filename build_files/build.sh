@@ -9,11 +9,14 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# this installs a package from fedora repos
-
+# Ensure /root/.gnupg exists for gpg operations
+mkdir -p /root/.gnupg && chmod 0700 /root/.gnupg
 
 # Enable Hyprland COPR repository
 dnf5 -y copr enable solopasha/hyprland
+
+# Enable nwg-shell COPR repository
+dnf5 -y copr enable tofik/nwg-shell
 
 # Remove KDE Plasma desktop components (keeping sddm)
 dnf5 -y remove \
@@ -51,7 +54,9 @@ dnf5 -y remove \
     plasma-workspace-wallpapers \
     plasma-desktop-doc
 
-# Install Hyprland and its immediate dependencies (already listed)
+# Install Hyprland and its dependencies
+# Removed 'wl-clipboard' as it's already installed.
+# Replaced 'polkit-kde-agent' with 'polkit-gnome'.
 dnf5 -y install \
     hyprland \
     xdg-desktop-portal-hyprland \
@@ -61,36 +66,18 @@ dnf5 -y install \
     swaybg \
     grim \
     slurp \
-    wl-clipboard \
     pamixer \
-    polkit-kde-agent
+    polkit-gnome # Using polkit-gnome as an alternative polkit agent
 
-# Install dependencies for the new dotfiles
+# Install nwg-shell
 dnf5 -y install \
-    kitty \
-    neovim \
-    rofi \
-    qt6ct \
-    xsettingsd \
-    fastfetch \
-    # swaync, wlogout, nwg-dock-hyprland might need specific COPRs or building.
-    # Check if a COPR is available for these or if they are in the Hyprland COPR.
-    # Example for a COPR if needed: dnf5 -y copr enable <owner>/<project>
-    # oh-my-posh, matugen, wallust might be pip installed or have specific install methods.
-    # For oh-my-posh, it's often a curl | bash install or specific releases.
-    # For matugen/wallust, check if they have RPMs or if pip install is needed in a custom script.
-    # Example if installing via pip: dnf5 install -y python3-pip && pip install matugen wallust
+    nwg-shell
 
-# Copy dotfiles from the 'dotfiles' directory into /etc/skel/
-# This makes them default for new users.
-# Assuming .config contains all the folders listed:
-mkdir -p /etc/skel/.config && \
-cp -r /ctx/dotfiles/.config/* /etc/skel/.config/ && \
-# If you have custom shell config files directly in the dotfiles repo root (e.g., .bashrc, .zshrc)
-# cp /ctx/dotfiles/.bashrc /etc/skel/
-# cp /ctx/dotfiles/.zshrc /etc/skel/
+# Execute the nwg-shell installer script for ostree systems
+# This script is expected to be placed in your build_files directory.
+/ctx/fedora-ostree.sh -a # The -a flag is for "auto-install" if the script supports it, check script for exact flags
 
-# NOT disabling the COPR, so you continue to get updates
+# NOT disabling the COPRs, so you continue to get updates
 
 #### Example for enabling a System Unit File
 systemctl enable podman.socket
