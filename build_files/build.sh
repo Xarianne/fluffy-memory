@@ -9,8 +9,20 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# Remove KDE components (keeping sddm)
-rpm-ostree override remove \
+# this installs a package from fedora repos
+# dnf5 install -y tmux
+
+# Enable Hyprland COPR repository
+dnf5 -y copr enable solopasha/hyprland
+
+# Enable nwg-shell COPR repository
+dnf5 -y copr enable tofik/nwg-shell
+
+# Remove KDE Plasma desktop components (keeping sddm)
+dnf5 -y remove \
+    plasma-workspace-common \
+    plasma-activities \
+    dnd5 -y remove \
     plasma-workspace-common \
     plasma-activities \
     plasma-activities-stats \
@@ -45,15 +57,9 @@ rpm-ostree override remove \
     plasma-workspace-wallpapers \
     plasma-desktop-doc
 
-# Use a COPR Example:
-dnf5 y copr enable solopasha/hyprland
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
-
-# this installs a package from fedora repos
-dnf5 install -y hyprland \
+# Install Hyprland and its dependencies
+dnf5 -y install \
+    hyprland \
     xdg-desktop-portal-hyprland \
     foot \
     waybar \
@@ -65,6 +71,15 @@ dnf5 install -y hyprland \
     pamixer \
     polkit-kde-agent
 
-#### Example for enabling a System Unit File
+# Install nwg-shell
+dnf5 -y install \
+    nwg-shell
 
+# Execute the nwg-shell installer script for ostree systems
+# This script is expected to be placed in your build_files directory.
+/ctx/fedora-ostree.sh -a # The -a flag is for "auto-install" if the script supports it, check script for exact flags
+
+# NOT disabling the COPRs, so you continue to get updates
+
+#### Example for enabling a System Unit File
 systemctl enable podman.socket
