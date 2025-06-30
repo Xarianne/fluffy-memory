@@ -13,7 +13,6 @@ set -ouex pipefail
 rpm-ostree override remove \
     plasma-desktop \
     kde-settings-fedora \
-    kde-runtime \
     krunner \
     kwin
 
