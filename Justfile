@@ -7,7 +7,7 @@ alias rebuild-vm := rebuild-qcow2
 alias run-vm := run-vm-qcow2
 
 # Adding ujust-install-my-flatpaks
-echo "import \"/usr/share/weaselos/just/weasel.just\"" >>/usr/share/weaselos/just/weasel.just\
+echo "import \"/usr/share/ublue-os/just/weasel.just\"" >>/usr/share/ublue-os/just/weasel.just\
 
 [private]
 default:
