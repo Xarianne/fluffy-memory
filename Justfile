@@ -6,6 +6,9 @@ alias build-vm := build-qcow2
 alias rebuild-vm := rebuild-qcow2
 alias run-vm := run-vm-qcow2
 
+# Add your import statement here
+import "/usr/share/weaselos/just/weasel.just"
+
 [private]
 default:
     @just --list
