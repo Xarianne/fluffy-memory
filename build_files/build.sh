@@ -10,33 +10,94 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # Enable the necessary COPR's:
-dnf5 -y copr enable tofik/sway
-dnf5 -y copr enable tofik/golang
-dnf5 -y copr enable erikreider/SwayNotificationCenter
-dnf5 -y copr enable mochaa/gtk-session-lock
-dnf5 -y copr enable tofik/nwg-shell
 dnf5 -y copr enable solopasha/hyprland
 
-# Add and remove packages to the image:
-dnf5 install -y blueman
-dnf5 install -y grimshot
-dnf5 install -y hyprland
-dnf5 install -y nwg-shell
-dnf5 install -y hyprland-qtutils
-dnf5 install -y pamixer
-dnf5 install -y waypaper
-dnf5 install -y wlogout
-dnf5 install -y xdg-desktop-portal-gtk
-dnf5 install -y zsh
-dnf5 install -y zsh-autosuggestions
-dnf5 install -y zsh-syntax-highlighting
-dnf5 install -y wget
-dnf5 install -y unzip
-dnf5 install -y rsync
-dnf5 install -y git
-dnf5 install -y figlet
+# Installing minimum required hyprland packages for ml4w:
+dnf5 install -y \
+    hyprland \
+    hyprpaper \
+    hyprlock \
+    hypridle \
+    hyprpicker \
+    noto-fonts \
+    xdg-desktop-portal-hyprland \
+    libnotify \
+    kitty \
+    qt5-qtwayland \
+    qt6-qtwayland \
 
+# Installer packages for ml4w (might not be needed, review later):
+dnf5 install -y \
+    wget \
+    zip \
+    unzip \
+    gum \
+    rsync \
+    git \
+    figlet \
+    sed \
+    vim \
+    xdg-user-dirs \
+    man-pages \
+    python3-pip \
 
+# Installing required ml4w packages:
+dnf5 install -y \
+    fastfetch \
+    xdg-desktop-portal-gtk \
+    python3-gobject \
+    python-screeninfo \
+    tumbler \
+    brightnessctl \
+    nm-connection-editor \
+    network-manager-applet \
+    gtk4 \
+    libadwaita \
+    fuse \
+    ImageMagick \
+    jq \
+    xclip \
+    neovim \
+    htop \
+    rust \
+    cargo \
+    pinta \
+    blueman \
+    grim \
+    slurp \
+    cliphist \
+    nwg-look \
+    qt6ct \
+    waybar \
+    rofi-wayland \
+    zsh \
+    fzf \
+    pavucontrol \
+    papirus-icon-theme \
+    papirus-icon-theme-dark \
+    breeze \
+    swaync \
+    gvfs \
+    wlogout \
+    hyprshade \
+    waypaper \
+    grimblast-git \
+    bibata-cursor-theme \
+    fontawesome-6-free-fonts \
+    fira-code-fonts \
+    oh-my-posh \
+    NetworkManager-tui \
+    nwg-dock-hyprland \
+    matugen \
+    flatpak \
+    wallust \
+    eza \
+    nautilus \
+    gnome-text-editor \
+    gnome-calculator \
+    mpv \
+    imv \
+    ffmpegthumbnailer \
 
 # Use a COPR Example:
 #
@@ -44,11 +105,6 @@ dnf5 install -y figlet
 # dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
-dnf5 -y copr disable tofik/sway
-dnf5 -y copr disable tofik/golang
-dnf5 -y copr disable erikreider/SwayNotificationCenter
-dnf5 -y copr disable mochaa/gtk-session-lock
-dnf5 -y copr disable tofik/nwg-shell
 dnf5 -y copr disable solopasha/hyprland
 
 #### Example for enabling a System Unit File
