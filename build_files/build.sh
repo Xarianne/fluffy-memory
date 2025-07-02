@@ -22,7 +22,7 @@ dnf5 install -y blueman
 dnf5 install -y grimshot
 dnf5 install -y hyprland
 dnf5 install -y nwg-shell
-dnf5 isntall -y hyprland-qtutils
+dnf5 install -y hyprland-qtutils
 dnf5 install -y pamixer
 dnf5 install -y waypaper
 dnf5 install -y wlogout
