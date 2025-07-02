@@ -30,10 +30,12 @@ dnf5 install -y xdg-desktop-portal-gtk
 dnf5 install -y zsh
 dnf5 install -y zsh-autosuggestions
 dnf5 install -y zsh-syntax-highlighting
+dnf5 install -y wget
+dnf5 install -y unzip
+dnf5 install -y rsync
+dnf5 install -y git
+dnf5 install -y figlet
 
-# installing homebrew stuff
-dnf5 group install -y development-tools
-dnf5 install -y  procps-ng curl file git
 
 
 # Use a COPR Example:
@@ -47,6 +49,7 @@ dnf5 -y copr disable tofik/golang
 dnf5 -y copr disable erikreider/SwayNotificationCenter
 dnf5 -y copr disable mochaa/gtk-session-lock
 dnf5 -y copr disable tofik/nwg-shell
+dnf5 -y copr disable solopasha/hyprland
 
 #### Example for enabling a System Unit File
 
