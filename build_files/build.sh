@@ -13,6 +13,7 @@ set -ouex pipefail
 dnf5 -y copr enable solopasha/hyprland
 
 # Installing minimum required hyprland packages for ml4w:
+# Removed: libnotify (likely base), qt5-qtwayland, qt6-qtwayland (already in base or handled by hyprland)
 dnf5 install -y \
     hyprland \
     hyprpaper \
@@ -21,39 +22,26 @@ dnf5 install -y \
     hyprpicker \
     noto-fonts \
     xdg-desktop-portal-hyprland \
-    libnotify \
-    kitty \
-    qt5-qtwayland \
-    qt6-qtwayland \
+    kitty
 
-# Installer packages for ml4w (might not be needed, review later):
+# Installer packages for ml4w (mostly redundant, keeping only gum for now if not in base)
+# Removed: wget, zip, unzip, gum, rsync, git, figlet, sed, vim, xdg-user-dirs, man-pages, python-pip
+# Keeping 'gum' as it's less common and might not be in the base.
+# Retained 'python3-pip' as it was already correct.
 dnf5 install -y \
-    wget \
-    zip \
-    unzip \
     gum \
-    rsync \
-    git \
-    figlet \
-    sed \
-    vim \
-    xdg-user-dirs \
-    man-pages \
-    python3-pip \
+    python3-pip
 
-# Installing required ml4w packages:
+# Installing required ml4w packages - BATCH 1: Core desktop components & utilities
+# Removed: xdg-desktop-portal-gtk (using hyprland one), python-screeninfo (keeping python3-gobject only),
+# gtk4, libadwaita, fuse, gvfs, flatpak, nautilus, gnome-text-editor, gnome-calculator
 dnf5 install -y \
     fastfetch \
-    xdg-desktop-portal-gtk \
     python3-gobject \
-    python-screeninfo \
     tumbler \
     brightnessctl \
     nm-connection-editor \
     network-manager-applet \
-    gtk4 \
-    libadwaita \
-    fuse \
     ImageMagick \
     jq \
     xclip \
@@ -72,12 +60,14 @@ dnf5 install -y \
     rofi-wayland \
     zsh \
     fzf \
-    pavucontrol \
+    pavucontrol
+
+# Installing required ml4w packages - BATCH 2: Theming, fonts, and remaining apps
+dnf5 install -y \
     papirus-icon-theme \
     papirus-icon-theme-dark \
     breeze \
     swaync \
-    gvfs \
     wlogout \
     hyprshade \
     waypaper \
@@ -89,24 +79,14 @@ dnf5 install -y \
     NetworkManager-tui \
     nwg-dock-hyprland \
     matugen \
-    flatpak \
     wallust \
     eza \
-    nautilus \
-    gnome-text-editor \
-    gnome-calculator \
     mpv \
     imv \
-    ffmpegthumbnailer \
+    ffmpegthumbnailer
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
 dnf5 -y copr disable solopasha/hyprland
 
 #### Example for enabling a System Unit File
-
 systemctl enable podman.socket
