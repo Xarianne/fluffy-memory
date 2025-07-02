@@ -9,11 +9,31 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
 
-rpm-ostree install hyprland
-bash -c "$(curl -s https://raw.githubusercontent.com/mylinuxforwork/dotfiles/main/setup-fedora.sh)"
+# Enable the necessary COPR's:
+dnf5 -y copr enable tofik/sway
+dnf5 -y copr enable tofik/golang
+dnf5 -y copr enable erikreider/SwayNotificationCenter
+dnf5 -y copr enable mochaa/gtk-session-lock
+dnf5 -y copr enable tofik/nwg-shell
+dnf5 -y copr enable solopasha/hyprland
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+# Add and remove packages to the image:
+dnf5 install -y blueman
+dnf5 install -y grimshot
+dnf5 install -y hyprland
+dnf5 install -y nwg-shell
+dnf5 install -y pamixer
+dnf5 install -y waypaper
+dnf5 install -y wlogout
+dnf5 install -y xdg-desktop-portal-gtk
+dnf5 install -y zsh
+dnf5 install -y zsh-autosuggestions
+dnf5 install -y zsh-syntax-highlighting
+
+# installing homebrew stuff
+dnf5 group install -y development-tools
+dnf5 install -y  procps-ng curl file git
+
 
 # Use a COPR Example:
 #
@@ -21,6 +41,11 @@ dnf5 install -y tmux
 # dnf5 -y install package
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
+dnf5 -y copr disable tofik/sway
+dnf5 -y copr disable tofik/golang
+dnf5 -y copr disable erikreider/SwayNotificationCenter
+dnf5 -y copr disable mochaa/gtk-session-lock
+dnf5 -y copr disable tofik/nwg-shell
 
 #### Example for enabling a System Unit File
 
