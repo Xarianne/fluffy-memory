@@ -21,6 +21,16 @@ set -ouex pipefail
 # Disable COPRs so they don't end up enabled on the final image:
 # dnf5 -y copr disable ublue-os/staging
 
+dnf5 copr -y enable solopasha/hyprland
+dnf5 copr -y enable tofik/nwg-shell
+
+dnf5 install -y \
+   hyprland \
+   nwg-shell \
+
+dnf5 copr -y disable solopasha/hyprland
+dnf5 copr -y disable tofik/nwg-shell
+
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
