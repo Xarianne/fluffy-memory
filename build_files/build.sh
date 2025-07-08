@@ -1,38 +1,74 @@
 #!/bin/bash
 
+# This makes the script exit immediately if a command fails
 set -ouex pipefail
 
 ### Manual Installation of Hyprland and ML4W Dotfiles
 
+echo "--- Starting Hyprland and Dotfiles Installation (Manual) ---"
+
 # 1. Enable COPR repository for Hyprland
+echo "Enabling Hyprland COPR..."
 dnf5 -y copr enable solopasha/hyprland
 
-# 2. Install Hyprland and git
-dnf5 -y install hyprland hyprland-devel xdg-desktop-portal-hyprland git
+# 2. Install Hyprland and all other required packages
+# This list is derived from the ML4W dotfiles installer
+echo "Installing Hyprland and all required packages..."
+dnf5 -y install \
+    git \
+    grim \
+    slurp \
+    swaybg \
+    swaylock-effects \
+    wlogout \
+    wlsunset \
+    wl-clipboard \
+    waybar \
+    mako \
+    kanshi \
+    thunar \
+    polkit-gnome \
+    python-requests \
+    python-pyquery \
+    jq \
+    inxi \
+    yad \
+    imagemagick \
+    pavucontrol \
+    brightnessctl \
+    bluez \
+    bluez-tools \
+    btop \
+    cava \
+    neofetch \
+    noto-fonts-emoji \
+    noto-sans-mono-fonts \
+    rofi-wayland \
+    xdg-desktop-portal-hyprland \
+    hyprland \
+    hyprland-devel
 
-# 3. Install chezmoi binary
-# Create the destination directory first to avoid errors
-mkdir -p /usr/local/bin
-# This downloads the chezmoi binary and places it in /usr/local/bin
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
-
-# 4. Clone and apply the dotfiles
-# First, clone the dotfiles repository to a temporary location
+# 3. Clone the dotfiles repository
+echo "Cloning dotfiles repository..."
 git clone https://github.com/mylinuxforwork/dotfiles.git /tmp/ml4w-dotfiles
-cd /tmp/ml4w-dotfiles
 
-# Now, use chezmoi to apply the configuration to the /etc/skel directory.
-# This ensures that any new user created will get these dotfiles.
-/usr/local/bin/chezmoi init --apply --destination /etc/skel
+# 4. Manually copy configuration files
+# This copies the configs to /etc/skel, so new users get them by default.
+echo "Copying configuration files..."
+# Create the target directory
+mkdir -p /etc/skel/.config/
+# Copy the contents of the 'dot_config' directory from the clone to the target
+cp -R /tmp/ml4w-dotfiles/dot_config/* /etc/skel/.config/
 
 # 5. Clean up
+echo "Cleaning up..."
 # Remove the temporary dotfiles clone
 rm -rf /tmp/ml4w-dotfiles
 
 # Disable the COPR repo to keep the final image clean
 dnf5 -y copr disable solopasha/hyprland
 
-# --- End Manual Installation ---
+echo "--- Installation Complete ---"
 
 # Enable other services as needed
 systemctl enable podman.socket
