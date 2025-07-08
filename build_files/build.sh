@@ -11,6 +11,8 @@ dnf5 -y copr enable solopasha/hyprland
 dnf5 -y install hyprland hyprland-devel xdg-desktop-portal-hyprland git
 
 # 3. Install chezmoi binary
+# Create the destination directory first to avoid errors
+mkdir -p /usr/local/bin
 # This downloads the chezmoi binary and places it in /usr/local/bin
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 
