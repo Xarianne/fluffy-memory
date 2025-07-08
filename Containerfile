@@ -2,9 +2,6 @@
 FROM scratch AS ctx
 COPY build_files /
 
-COPY my_script.sh /tmp/my_script.sh
-RUN chmod +x /tmp/my_script.sh && /tmp/my_script.sh
-
 # Base Image
 FROM ghcr.io/ublue-os/base-main
 
