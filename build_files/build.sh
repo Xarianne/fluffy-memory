@@ -2,38 +2,23 @@
 
 set -ouex pipefail
 
-### Install packages
+### Install packages & Run ML4W Installer
 
-# Enable the correct COPR repository for chezmoi
-dnf5 -y copr enable superatomic/chezmoi
-
-# --- Add your Hyprland installation here ---
-
-# Enable solopasha/hyprland COPR for potentially newer versions
+# Enable solopasha/hyprland COPR for newer versions
 dnf5 -y copr enable solopasha/hyprland
 
-# Create the .gnupg directory for gpg key import
-mkdir -p /root/.gnupg
-
-# Install Hyprland and its development packages, and xdg-desktop-portal-hyprland
-dnf5 -y install hyprland hyprland-devel xdg-desktop-portal-hyprland
-
-# Install git and chezmoi for dotfile management
-dnf5 -y install git chezmoi
-
-# Optional: Clone ML4W dotfiles and apply them to /etc/skel for new users
-# Adjust the git clone URL to your specific dotfiles repository
-mkdir -p /etc/skel/.config
+# Clone ml4w dotfiles repository
 git clone https://github.com/mylinuxforwork/dotfiles.git /tmp/ml4w-dotfiles
-cd /tmp/ml4w-dotfiles
-chezmoi init --apply --destination /etc/skel
+
+# Run your Fedora-specific installer script
+# The -i flag is used to accept all confirmations
+/tmp/ml4w-dotfiles/setup-fedora.sh -i
+
+# Clean up the cloned repository
 rm -rf /tmp/ml4w-dotfiles
 
-# It's good practice to disable COPRs if you don't want them enabled on the final image
+# Disable the COPR repo
 dnf5 -y copr disable solopasha/hyprland
-dnf5 -y copr disable superatomic/chezmoi
-
-# --- End Hyprland installation ---
 
 # ... (your other build.sh content like systemctl enable) ...
 systemctl enable podman.socket
