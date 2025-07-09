@@ -12,47 +12,26 @@ echo "Enabling COPR repositories..."
 dnf5 -y copr enable --nogpgcheck solopasha/hyprland
 dnf5 -y copr enable --nogpgcheck alternateved/eza
 
-# 2. Install only the necessary additional packages
+# 2. Install only the packages that are not in the base image
 echo "Installing all required packages..."
 dnf5 -y install --nogpgcheck \
     grim \
     slurp \
     swaybg \
     swaylock \
+    wlogout \
+    wlsunset \
     waybar \
     mako \
     kanshi \
     thunar \
-    polkit \
-    NetworkManager-tui \
-    wpa_supplicant \
-    mtools \
-    dosfstools \
-    gvfs \
     gvfs-smb \
-    nfs-utils \
-    inetutils \
-    bluez \
-    bluez-utils \
-    cups \
-    hplip \
-    bash-completion \
-    openssh \
-    rsync \
     acpi \
-    ipset \
-    firewalld \
-    alsa-sof-firmware \
-    nss-mdns \
     acpid \
-    os-prober \
-    ntfs-3g \
     terminus-fonts \
     eza \
     bat \
     ranger \
-    unzip \
-    xorg-x11-server-Xwayland \
     xorg-x11-xinit \
     xclip \
     brightnessctl \
