@@ -7,42 +7,55 @@ set -ouex pipefail
 
 echo "--- Starting Hyprland and Dotfiles Installation (Manual) ---"
 
-# 1. Enable COPR repository for Hyprland
-echo "Enabling Hyprland COPR..."
-dnf5 -y copr enable solopasha/hyprland
+# 1. Enable COPR repositories, skipping GPG checks
+echo "Enabling COPR repositories..."
+dnf5 -y copr enable --nogpgcheck solopasha/hyprland
+dnf5 -y copr enable --nogpgcheck alternateved/eza
 
-# 2. Install Hyprland and all other required packages
-# This list is derived from the ML4W dotfiles installer
-echo "Installing Hyprland and all required packages..."
-dnf5 -y install \
-    git \
+# 2. Install only the necessary additional packages
+echo "Installing all required packages..."
+dnf5 -y install --nogpgcheck \
     grim \
     slurp \
     swaybg \
-    swaylock-effects \
-    wlogout \
-    wlsunset \
-    wl-clipboard \
+    swaylock \
     waybar \
     mako \
     kanshi \
     thunar \
-    polkit-gnome \
-    python-requests \
-    python-pyquery \
-    jq \
-    inxi \
-    yad \
-    imagemagick \
-    pavucontrol \
-    brightnessctl \
+    polkit \
+    NetworkManager-tui \
+    wpa_supplicant \
+    mtools \
+    dosfstools \
+    gvfs \
+    gvfs-smb \
+    nfs-utils \
+    inetutils \
     bluez \
-    bluez-tools \
-    btop \
-    cava \
-    neofetch \
-    noto-fonts-emoji \
-    noto-sans-mono-fonts \
+    bluez-utils \
+    cups \
+    hplip \
+    bash-completion \
+    openssh \
+    rsync \
+    acpi \
+    ipset \
+    firewalld \
+    alsa-sof-firmware \
+    nss-mdns \
+    acpid \
+    os-prober \
+    ntfs-3g \
+    terminus-fonts \
+    eza \
+    bat \
+    ranger \
+    unzip \
+    xorg-x11-server-Xwayland \
+    xorg-x11-xinit \
+    xclip \
+    brightnessctl \
     rofi-wayland \
     xdg-desktop-portal-hyprland \
     hyprland \
@@ -50,25 +63,24 @@ dnf5 -y install \
 
 # 3. Clone the dotfiles repository
 echo "Cloning dotfiles repository..."
-git clone https://github.com/mylinuxforwork/dotfiles.git /tmp/ml4w-dotfiles
+git clone --depth=1 https://github.com/mylinuxforwork/dotfiles.git /tmp/ml4w-dotfiles
 
-# 4. Manually copy configuration files
-# This copies the configs to /etc/skel, so new users get them by default.
-echo "Copying configuration files..."
-# Create the target directory
-mkdir -p /etc/skel/.config/
-# Copy the contents of the 'dot_config' directory from the clone to the target
-cp -R /tmp/ml4w-dotfiles/dot_config/* /etc/skel/.config/
+# 4. Manually copy all configuration files
+echo "Copying all configuration files..."
+cp -r /tmp/ml4w-dotfiles/. /etc/skel/
 
 # 5. Clean up
 echo "Cleaning up..."
-# Remove the temporary dotfiles clone
 rm -rf /tmp/ml4w-dotfiles
-
-# Disable the COPR repo to keep the final image clean
 dnf5 -y copr disable solopasha/hyprland
+dnf5 -y copr disable alternateved/eza
 
 echo "--- Installation Complete ---"
 
-# Enable other services as needed
-systemctl enable podman.socket
+# Enable services mentioned in the cheatsheet
+systemctl enable NetworkManager
+systemctl enable bluetooth
+systemctl enable cups.service
+systemctl enable sshd
+systemctl enable firewalld
+systemctl enable acpid
