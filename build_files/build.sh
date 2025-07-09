@@ -42,7 +42,7 @@ dnf5 -y install --nogpgcheck \
     xclip \
     brightnessctl \
     rofi-wayland \
-    xdg-desktop-portal-hyprland \
+s    xdg-desktop-portal-hyprland \
     hyprland \
     hyprland-devel
 
@@ -54,7 +54,28 @@ git clone --depth=1 https://github.com/mylinuxforwork/dotfiles.git /tmp/ml4w-dot
 echo "Copying all configuration files..."
 cp -r /tmp/ml4w-dotfiles/. /etc/skel/
 
-# 5. Clean up
+# 5. Create the Hyprland session file for SDDM
+echo "Creating Wayland session file for SDDM..."
+mkdir -p /usr/share/wayland-sessions
+cat > /usr/share/wayland-sessions/hyprland.desktop <<EOF
+[Desktop Entry]
+Name=Hyprland
+Comment=A dynamic tiling Wayland compositor
+Exec=Hyprland
+Type=Application
+EOF
+
+# 6. Set required environment variables for Hyprland
+echo "Setting environment variables for Hyprland..."
+cat > /etc/profile.d/hyprland.sh <<EOF
+# This sets the XDG_CURRENT_DESKTOP variable, which is required by
+# many applications to function correctly under Hyprland.
+export XDG_CURRENT_DESKTOP=Hyprland
+EOF
+chmod +x /etc/profile.d/hyprland.sh
+
+
+# 7. Clean up
 echo "Cleaning up..."
 rm -rf /tmp/ml4w-dotfiles
 dnf5 -y copr disable solopasha/hyprland
