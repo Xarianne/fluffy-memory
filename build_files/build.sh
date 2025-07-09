@@ -22,3 +22,6 @@ set -ouex pipefail
 #### Example for enabling a System Unit File
 
 systemctl enable podman.socket
+
+echo "--- Performing required cleanup ---"
+rm -rf /usr/etc
