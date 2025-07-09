@@ -12,7 +12,7 @@ echo "Enabling COPR repositories..."
 dnf5 -y copr enable --nogpgcheck solopasha/hyprland
 dnf5 -y copr enable --nogpgcheck alternateved/eza
 
-# 2. Install all required packages, including the Display Manager
+# 2. Install only the necessary additional packages
 echo "Installing all required packages..."
 dnf5 -y install --nogpgcheck \
     sddm \
@@ -26,11 +26,6 @@ dnf5 -y install --nogpgcheck \
     mako \
     kanshi \
     thunar \
-    polkit \
-    NetworkManager-tui \
-    wpa_supplicant \
-    mtools \
-    dosfstools \
     gvfs-smb \
     acpi \
     acpid \
@@ -42,7 +37,7 @@ dnf5 -y install --nogpgcheck \
     xclip \
     brightnessctl \
     rofi-wayland \
-s    xdg-desktop-portal-hyprland \
+    xdg-desktop-portal-hyprland \
     hyprland \
     hyprland-devel
 
