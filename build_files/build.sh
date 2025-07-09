@@ -12,9 +12,10 @@ echo "Enabling COPR repositories..."
 dnf5 -y copr enable --nogpgcheck solopasha/hyprland
 dnf5 -y copr enable --nogpgcheck alternateved/eza
 
-# 2. Install only the packages that are not in the base image
+# 2. Install all required packages, including the Display Manager
 echo "Installing all required packages..."
 dnf5 -y install --nogpgcheck \
+    sddm \
     grim \
     slurp \
     swaybg \
@@ -25,6 +26,11 @@ dnf5 -y install --nogpgcheck \
     mako \
     kanshi \
     thunar \
+    polkit \
+    NetworkManager-tui \
+    wpa_supplicant \
+    mtools \
+    dosfstools \
     gvfs-smb \
     acpi \
     acpid \
@@ -56,7 +62,8 @@ dnf5 -y copr disable alternateved/eza
 
 echo "--- Installation Complete ---"
 
-# Enable services mentioned in the cheatsheet
+# Enable services. The Display Manager is the most critical one for a graphical login.
+systemctl enable sddm
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable cups.service
