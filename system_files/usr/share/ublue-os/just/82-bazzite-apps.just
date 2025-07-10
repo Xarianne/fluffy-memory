@@ -2,7 +2,7 @@
 
 # Install specified Flatpaks
 install-my-flatpaks:
-  flatpak install -y flathub com.discordapp.Discord com.obsproject.Studio io.github.radiolamp.mangojuice com.vivaldi.Vivaldi
+  flatpak install -y flathub com.discordapp.Discord com.obsproject.Studio io.github.radiolamp.mangojuice com.vivaldi.Vivaldi org.localsend.localsend_app
 
 # Install LACT to control your AMD, Nvidia or Intel GPU on a Linux system.
 install-lact:
