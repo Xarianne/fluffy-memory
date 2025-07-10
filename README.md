@@ -1,4 +1,4 @@
-# BlyWhale
+# BluWhale - a personal image based on UBlue's image template
 
 # Purpose
 A personal repo based on Universal Blue's images. Mostly used as a playground for testing my own changes and learning how to deal with this system. While the builds here are often Bazzite based, I suggest not rebasing to this image as it might might be broken. I left some of the documentation from the Ublue Template below to refresh my memory.
